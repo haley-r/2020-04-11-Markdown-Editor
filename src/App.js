@@ -1,26 +1,21 @@
 import React, {Component} from 'react';
 import './App.css';
+//ReactHtmlParsel turns html strings to jsx elements
 import ReactHtmlParser from 'react-html-parser';
-// Create reference instance
+// Create instance from marked.js
 const marked = require('marked');
 
 class App extends Component{
   state = {
     mdInput:'# hi',
-    htmlOutput: ''
+    htmlOutput: (marked('# hi'))
   }
 
-  componentDidMount=()=>{
-    this.showHTML()
-  }
-
-  showHTML=()=>{
-    // use marked.js to convert the markdown into an html string
-    this.setState({htmlOutput: (marked(this.state.mdInput))});
-  }
-
-  updateInput=(event)=>{
-    this.setState({mdInput: event.target.value})
+  showHTML=(event)=>{
+    this.setState({
+      mdInput: event.target.value,
+      htmlOutput: (marked(event.target.value))
+    })
   }
 
   render(){
@@ -31,11 +26,9 @@ class App extends Component{
         </header>
         <div id="input-area">
           <label htmlFor="md-input">type markdown here:</label>
-            <textarea value={this.state.mdInput} onChange={this.updateInput}/>
-          <button onClick={this.showHTML}>show html</button>
+            <textarea value={this.state.mdInput} onChange={this.showHTML}/>
         </div>
         <div id="output-area">
-          {/* use ReactHtmlParser to change the html string to jsx */}
           {ReactHtmlParser(this.state.htmlOutput)}
         </div>
 
