@@ -1,35 +1,21 @@
 import React, {Component} from 'react';
 import './App.css';
+import ReactHtmlParser from 'react-html-parser';
+// Create reference instance
+const marked = require('marked');
 
 class App extends Component{
   state = {
-    mdInput:'',
+    mdInput:'# hi',
     htmlOutput: ''
   }
 
+  componentDidMount=()=>{
+    this.showHTML()
+  }
+
   showHTML=()=>{
-    // Create reference instance
-    const marked = require('marked');
-
-    // Set options
-    // `highlight` example uses `highlight.js`
-    marked.setOptions({
-      renderer: new marked.Renderer(),
-      // highlight: function (code, language) {
-      //   const hljs = require('highlight.js');
-      //   const validLanguage = hljs.getLanguage(language) ? language : 'plaintext';
-      //   return hljs.highlight(validLanguage, code).value;
-      // },
-      pedantic: false,
-      gfm: true,
-      breaks: false,
-      sanitize: false,
-      smartLists: true,
-      smartypants: false,
-      xhtml: false
-    });
-
-    // Compile
+    // use marked.js to convert the markdown into an html string
     this.setState({htmlOutput: (marked(this.state.mdInput))});
   }
 
@@ -45,11 +31,12 @@ class App extends Component{
         </header>
         <div id="input-area">
           <label htmlFor="md-input">type markdown here:</label>
-            <textarea onChange={this.updateInput}/>
+            <textarea value={this.state.mdInput} onChange={this.updateInput}/>
           <button onClick={this.showHTML}>show html</button>
         </div>
         <div id="output-area">
-            {this.state.htmlOutput}
+          {/* use ReactHtmlParser to change the html string to jsx */}
+          {ReactHtmlParser(this.state.htmlOutput)}
         </div>
 
       </div>
