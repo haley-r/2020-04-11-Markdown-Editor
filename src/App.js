@@ -29,6 +29,7 @@ class App extends Component{
             <textarea value={this.state.mdInput} onChange={this.showHTML}/>
         </div>
         <div id="output-area">
+          <h3 id="output-label">here's what you typed, in html:</h3>
           {ReactHtmlParser(this.state.htmlOutput)}
         </div>
 
